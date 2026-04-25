@@ -56,7 +56,6 @@ public class SupportTopicServiceImpl implements SupportTopicService {
                             .build()
             );
             int topicId = forumTopic.getMessageThreadId();
-            userTopicRepository.save(new UserTopic(userId, topicId));
             log.info("Created forum topic {} for user {} ({})", topicId, userId, topicName);
             return topicId;
         } catch (TelegramApiException e) {
