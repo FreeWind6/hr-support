@@ -48,8 +48,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.integration:spring-integration-jdbc")
-    implementation("org.springframework.integration:spring-integration-jpa")
     implementation("org.springframework.boot:spring-boot-starter-liquibase")
     implementation(libs.hypersistence.utils.hibernate)
     implementation(libs.telegrambots.client)
@@ -64,7 +62,6 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.integration:spring-integration-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
