@@ -1,5 +1,7 @@
 # hr-support
 
+[![Docker Publish](https://github.com/FreeWind6/hr-support/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/FreeWind6/hr-support/actions/workflows/docker-publish.yml)   [![Java CI with Gradle](https://github.com/FreeWind6/hr-support/actions/workflows/gradle.yml/badge.svg)](https://github.com/FreeWind6/hr-support/actions/workflows/gradle.yml)  [![Dependabot Updates](https://github.com/FreeWind6/hr-support/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/FreeWind6/hr-support/actions/workflows/dependabot/dependabot-updates)
+
 Telegram-бот для первичной обработки откликов на вакансии. Принимает сообщения от кандидатов и перенаправляет их в
 группу поддержки, автоматически создавая отдельную тему для каждого кандидата.
 
