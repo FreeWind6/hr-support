@@ -1,6 +1,10 @@
 spring:
   application:
     name: hr-support
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yml
   datasource:
