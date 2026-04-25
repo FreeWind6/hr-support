@@ -5,8 +5,10 @@ import com.kubyshkin.hrsupport.model.TopicResult;
 import com.kubyshkin.hrsupport.model.UserTopic;
 import com.kubyshkin.hrsupport.repository.UserTopicRepository;
 import com.kubyshkin.hrsupport.service.SupportTopicService;
+import com.kubyshkin.hrsupport.exception.TopicCreationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.forum.CreateForumTopic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,9 +29,20 @@ public class SupportTopicServiceImpl implements SupportTopicService {
      */
     @Override
     public TopicResult findOrCreateTopic(long userId, String displayName) {
-        return userTopicRepository.findById(userId)
+        return userTopicRepository.findByUserId(userId)
                 .map(ut -> new TopicResult(ut.getTopicId(), false))
-                .orElseGet(() -> new TopicResult(createTopic(userId, displayName), true));
+                .orElseGet(() -> {
+                    try {
+                        int topicId = createTopic(userId, displayName);
+                        userTopicRepository.save(new UserTopic(userId, topicId));
+                        return new TopicResult(topicId, true);
+                    } catch (DataIntegrityViolationException _) {
+                        // Concurrent insert won the race — fetch the winner
+                        return userTopicRepository.findByUserId(userId)
+                                .map(ut -> new TopicResult(ut.getTopicId(), false))
+                                .orElseThrow();
+                    }
+                });
     }
 
     private int createTopic(long userId, String displayName) {
@@ -44,12 +57,11 @@ public class SupportTopicServiceImpl implements SupportTopicService {
                             .build()
             );
             int topicId = forumTopic.getMessageThreadId();
-            userTopicRepository.save(new UserTopic(userId, topicId));
             log.info("Created forum topic {} for user {} ({})", topicId, userId, topicName);
             return topicId;
         } catch (TelegramApiException e) {
             log.error("Failed to create forum topic for user {}: {}", userId, e.getMessage());
-            throw new RuntimeException("Cannot create support topic for user " + userId, e);
+            throw new TopicCreationException(userId, e);
         }
     }
 }

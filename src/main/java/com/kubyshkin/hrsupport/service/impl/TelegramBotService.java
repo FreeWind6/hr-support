@@ -2,6 +2,7 @@ package com.kubyshkin.hrsupport.service.impl;
 
 import com.kubyshkin.hrsupport.config.TelegramProperties;
 import com.kubyshkin.hrsupport.model.TopicResult;
+import com.kubyshkin.hrsupport.service.SupportTopicService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class TelegramBotService implements SpringLongPollingBot, LongPollingSing
 
     private final TelegramClient telegramClient;
     private final TelegramProperties properties;
-    private final SupportTopicServiceImpl supportTopicService;
+    private final SupportTopicService supportTopicService;
 
     @Override
     public String getBotToken() {
@@ -146,12 +147,14 @@ public class TelegramBotService implements SpringLongPollingBot, LongPollingSing
         if (name.isEmpty() && user.getUserName() != null) {
             name.append('@').append(user.getUserName());
         }
-        return name.toString();
+        return name.length() > 128 ? name.substring(0, 125) + "..." : name.toString();
     }
 
     private String escapeHtml(String text) {
         return text.replace("&", "&amp;")
                 .replace("<", "&lt;")
-                .replace(">", "&gt;");
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 }

@@ -26,9 +26,9 @@ public class TelegramClientConfig {
     @Bean
     public TelegramClient telegramClient() {
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .connectTimeout(0, TimeUnit.MILLISECONDS)
-                .readTimeout(0, TimeUnit.MILLISECONDS)
-                .writeTimeout(0, TimeUnit.MILLISECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
         return new OkHttpTelegramClient(
                 httpClient,
