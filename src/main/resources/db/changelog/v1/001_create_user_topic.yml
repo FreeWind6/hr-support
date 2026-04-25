@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_create_user_topic
+      author: kubyshkin
+      changes:
+        - createTable:
+            tableName: user_topic
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: topic_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false

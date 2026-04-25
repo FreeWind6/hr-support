@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: hr-support
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_ADDRESS:}/${POSTGRES_DB:hrsupport}
+    username: ${POSTGRES_USER:}
+    password: ${POSTGRES_PASSWORD:}
+    hikari:
+      schema: ${POSTGRES_SCHEMA:public}
+    driver-class-name: org.postgresql.Driver
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  server:
+    port: 8090
+
+telegram-bot:
+  schema: ${TELEGRAM_BOT_SCHEMA:https}
+  host: ${TELEGRAM_BOT_HOST:api.telegram.org}
+  port: ${TELEGRAM_BOT_PORT:443}
+  token: ${TELEGRAM_BOT_TOKEN:}
+  support-group-id: ${TELEGRAM_SUPPORT_GROUP_ID:}
+  welcome-text: |
+    👋 Добрый день!
+
+    🙏 Благодарю за отклик! Прошу одним сообщением прислать ответы на следующие вопросы:
+
+    1️⃣ Ваши комфортные ожидания по ЗП на руки 💰
+    2️⃣ Ваша локация 📍
+    3️⃣ Какой формат работы рассматриваете: только удалёнка / готовы к гибриду 🏠🏢
+    4️⃣ Полное ФИО и дата рождения (важно для нашей HR-программы при регистрации отклика) 📋
+    5️⃣ Другая информация, которую считаете важным сообщить 💬
+
+    📎 Также прошу прикрепить резюме: ссылкой на работный ресурс или файлом PDF
+
+    ✨ Юлия свяжется с вами, если ваш опыт подойдёт для данной вакансии или будет полезен на другом проекте!
