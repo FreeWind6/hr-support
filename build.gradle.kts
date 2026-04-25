@@ -8,7 +8,11 @@ plugins {
 }
 
 group = "com.kubyshkin.hr-support"
-version = "0.0.1"
+version = "0.0.2"
+
+springBoot {
+    buildInfo()
+}
 
 java {
     toolchain {
@@ -18,7 +22,7 @@ java {
 
 sonar {
     properties {
-        property("sonar.projectKey", "FreeWind6_home")
+        property("sonar.projectKey", "FreeWind6_hr_support")
         property("sonar.organization", "freewind6")
     }
 }
