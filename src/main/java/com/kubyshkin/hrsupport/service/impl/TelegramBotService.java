@@ -63,6 +63,9 @@ public class TelegramBotService implements SpringLongPollingBot, LongPollingSing
         }
 
         var message = update.getMessage();
+        if (message.getChatId().equals(properties.getSupportGroupId())) {
+            return;
+        }
         if (!message.hasText() && !message.hasPhoto() && !message.hasVideo()
                 && !message.hasDocument() && !message.hasAudio() && !message.hasVoice()
                 && !message.hasVideoNote() && !message.hasSticker()) {
