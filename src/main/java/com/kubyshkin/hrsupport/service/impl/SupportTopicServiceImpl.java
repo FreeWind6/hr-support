@@ -7,7 +7,9 @@ import com.kubyshkin.hrsupport.repository.UserTopicRepository;
 import com.kubyshkin.hrsupport.service.SupportTopicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.forum.CreateForumTopic;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
@@ -26,10 +28,22 @@ public class SupportTopicServiceImpl implements SupportTopicService {
      * {@link TopicResult#isNew()} == true означает, что тема была только что создана.
      */
     @Override
+    @Transactional
     public TopicResult findOrCreateTopic(long userId, String displayName) {
-        return userTopicRepository.findById(userId)
+        return userTopicRepository.findByUserId(userId)
                 .map(ut -> new TopicResult(ut.getTopicId(), false))
-                .orElseGet(() -> new TopicResult(createTopic(userId, displayName), true));
+                .orElseGet(() -> {
+                    try {
+                        int topicId = createTopic(userId, displayName);
+                        userTopicRepository.save(new UserTopic(userId, topicId));
+                        return new TopicResult(topicId, true);
+                    } catch (DataIntegrityViolationException _) {
+                        // Concurrent insert won the race — fetch the winner
+                        return userTopicRepository.findByUserId(userId)
+                                .map(ut -> new TopicResult(ut.getTopicId(), false))
+                                .orElseThrow();
+                    }
+                });
     }
 
     private int createTopic(long userId, String displayName) {
