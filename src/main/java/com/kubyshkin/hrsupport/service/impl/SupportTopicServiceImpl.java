@@ -5,6 +5,7 @@ import com.kubyshkin.hrsupport.model.TopicResult;
 import com.kubyshkin.hrsupport.model.UserTopic;
 import com.kubyshkin.hrsupport.repository.UserTopicRepository;
 import com.kubyshkin.hrsupport.service.SupportTopicService;
+import com.kubyshkin.hrsupport.exception.TopicCreationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -60,7 +61,7 @@ public class SupportTopicServiceImpl implements SupportTopicService {
             return topicId;
         } catch (TelegramApiException e) {
             log.error("Failed to create forum topic for user {}: {}", userId, e.getMessage());
-            throw new RuntimeException("Cannot create support topic for user " + userId, e);
+            throw new TopicCreationException(userId, e);
         }
     }
 }
