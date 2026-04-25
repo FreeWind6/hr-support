@@ -22,7 +22,7 @@ java {
 
 sonar {
     properties {
-        property("sonar.projectKey", "FreeWind6_hr_support")
+        property("sonar.projectKey", "FreeWind6_hr-support")
         property("sonar.organization", "freewind6")
     }
 }
