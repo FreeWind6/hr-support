@@ -1,43 +1,40 @@
 package com.kubyshkin.hrsupport.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
-@Table(name = "user_topic")
+@Table("user_topic")
 @Getter
-@Setter
 @NoArgsConstructor
 public class UserTopic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
     private UUID id;
 
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column("user_id")
     private Long userId;
 
-    @Column(name = "topic_id", nullable = false)
+    @Column("topic_id")
     private Integer topicId;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
+    @Column("created_at")
     private Instant createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
+    @LastModifiedDate
+    @Column("updated_at")
     private Instant updatedAt;
 
     @Version
-    @Column(name = "version", nullable = false)
     private Long version;
 
     public UserTopic(Long userId, Integer topicId) {

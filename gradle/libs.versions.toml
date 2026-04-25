@@ -1,6 +1,5 @@
 [versions]
 telegrambots = '9.5.0'
-hypersistenceUtilsHibernate71 = '3.15.2'
 springBoot = '4.0.6'
 springDependencyManagement = '1.1.7'
 gradleGitProperties = '2.5.7'
@@ -9,7 +8,6 @@ sonarqube = '7.2.3.7755'
 [libraries]
 telegrambots-springboot-longpolling-starter = { module = "org.telegram:telegrambots-springboot-longpolling-starter", version.ref = "telegrambots" }
 telegrambots-client = { module = "org.telegram:telegrambots-client", version.ref = "telegrambots" }
-hypersistence-utils-hibernate = { module = "io.hypersistence:hypersistence-utils-hibernate-71", version.ref = "hypersistenceUtilsHibernate71" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
