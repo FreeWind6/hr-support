@@ -1,5 +1,5 @@
 [versions]
-telegrambots = '10.0.0'
+telegrambots = '10.1.1'
 springBoot = '4.0.6'
 springDependencyManagement = '1.1.7'
 gradleGitProperties = '4.0.1'
