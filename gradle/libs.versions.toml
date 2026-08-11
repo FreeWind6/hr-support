@@ -3,7 +3,7 @@ telegrambots = '10.0.0'
 springBoot = '4.1.0'
 springDependencyManagement = '1.1.7'
 gradleGitProperties = '4.0.1'
-sonarqube = '7.3.1.8318'
+sonarqube = '7.4.0.8496'
 
 [libraries]
 telegrambots-springboot-longpolling-starter = { module = "org.telegram:telegrambots-springboot-longpolling-starter", version.ref = "telegrambots" }
